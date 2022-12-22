@@ -5,9 +5,9 @@ metadata:
 spec:
   template:
     spec:
+      restartPolicy: Never
       containers:
         - name: postgres-backup
-          # image: postgres:13.2
           image: pseidensal/postgres-dump-to-bucket
           imagePullPolicy: Always
           command:

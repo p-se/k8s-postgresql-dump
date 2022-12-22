@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgresql-to-bucket
+data:
+  POSTGRES_USER: admin
+  POSTGRES_DB: foo
+  POSTGRES_HOST: postgresql
+
+  BUCKET_NAME: pseawstestbucket

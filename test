@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -ex
+
+: "${CLUSTER_NAME:="pg-dump-to-bucket"}"
+
+while ! k3d cluster create "${CLUSTER_NAME}"; do
+    k3d cluster delete "${CLUSTER_NAME}"
+done
+
+kubectl -n default apply -f manifests/secret.yaml
+kubectl -n default apply -f manifests/configmap.yaml
+kubectl -n default apply -f manifests/postgres-server.yaml
+kubectl -n default apply -f manifests/cronjob.yaml

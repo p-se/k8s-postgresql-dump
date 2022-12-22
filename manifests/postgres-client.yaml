@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-client
+spec:
+  selector:
+    matchLabels:
+      app: postgres-client
+  template:
+    metadata:
+      labels:
+        app: postgres-client
+    spec:
+      containers:
+        - name: postgresql-client
+          image: postgres:13.2
+          # resources:
+          #   limits:
+          #     memory: '2Gi'
+          #     cpu: '8'
+          envFrom:
+            - configMapRef:
+                name: postgresql-to-bucket
+            - secretRef:
+                name: postgresql-to-bucket
+          command:
+           - bash
+           - "-c"
+           - "sleep inf"

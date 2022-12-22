@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  template:
+    spec:
+      containers:
+        - name: postgres-backup
+          # image: postgres:13.2
+          image: pseidensal/postgres-dump-to-bucket
+          imagePullPolicy: Always
+          command:
+            - /bin/sh
+            - '-c'
+            - >
+              fname=/var/backups/backup-$(date +"%m-%d-%Y-%H-%M").sql.gz &&
+              pg_dump -U $POSTGRES_USER -h $POSTGRES_HOST $POSTGRES_DB | gzip > $fname &&
+              aws s3 cp $fname s3://$BUCKET_NAME
+          envFrom:
+            - configMapRef:
+                name: postgresql-to-bucket
+            - secretRef:
+                name: postgresql-to-bucket
+  backoffLimit: 4

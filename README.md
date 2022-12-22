@@ -19,3 +19,6 @@ For `aws` cli:
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY`
 - `AWS_DEFAULT_REGION`
+
+The CronJob and Job retrieve those values from the `postgresql-to-bucket`
+ConfigMap and Secret (both).
